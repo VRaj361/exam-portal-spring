@@ -29,7 +29,7 @@ public class UserService {
 	//create User
 	public UserEntity createUser(UserEntity user, Set<UserRoleEntity> users) throws Exception {
 		
-		UserEntity userTemp = userRepo.findByEmail(user.getEmail());
+		UserEntity userTemp = userRepo.findByUsername(user.getUsername());
 		if(userTemp != null) {
 			return null;
 		}else {
@@ -54,6 +54,27 @@ public class UserService {
 		}else {			
 			return false;
 		}
+	}
+	
+	//login user
+	public UserEntity checkingUser(UserEntity user) {
+		UserEntity userTemp = userRepo.findByUsername(user.getUsername());
+		if(userTemp != null) {
+			if(bcrypt.matches(user.getPassword(), userTemp.getPassword())){
+				return userTemp;
+			}else {
+				return null;
+			}	
+		}else {
+			return null;
+		}
+	}
+	
+	//Forgot Password user
+	public UserEntity checkingUserEmail(UserEntity user) {
+		UserEntity userTemp = userRepo.findByUsername(user.getUsername());
+		//otp assign and check otp after create new password
+		return null;
 	}
 	
 }

@@ -8,7 +8,7 @@ import com.entity.UserEntity;
 
 
 public interface UserRepository extends JpaRepository<UserEntity, String>{
-	public UserEntity findByEmail(String email); 
+	public UserEntity findByUsername(String username); 
 	
 	public UserEntity findByUserid(String userid);
 	

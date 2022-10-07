@@ -1,5 +1,6 @@
 package com.entity;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -7,25 +8,29 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+//import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+
 @Entity
 @Table(name = "users")
-public class UserEntity {
+public class UserEntity implements UserDetails{
 	
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid",strategy = "uuid2")
 //	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String userid;
-	private String email;
+	private String username;
 	private String password;
 	private String firstName;
 	private String lastName;
@@ -39,11 +44,11 @@ public class UserEntity {
 	
 	
 	
-	public UserEntity(String userid, String email, String password, String firstName, String lastName, String phoneNum,
+	public UserEntity(String userid, String username, String password, String firstName, String lastName, String phoneNum,
 			boolean enabled) {
 		super();
 		this.userid = userid;
-		this.email = email;
+		this.username = username;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -73,11 +78,11 @@ public class UserEntity {
 		this.profilePic = profilePic;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getUsername() {
+		return username;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	public String getPassword() {
 		return password;
@@ -111,6 +116,38 @@ public class UserEntity {
 	}
 	public String getUserid() {
 		return userid;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		
+		Set<Authority> auth =new HashSet<Authority>();
+		userroles.forEach(userrole->{
+			auth.add(new Authority(userrole.getRole().getRolename()));
+		});
+		return null;
+	}
+
+//	@Override
+//	public String getUsername() {
+//		return this.email;
+//	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
 	}
 	
 	
