@@ -77,4 +77,22 @@ public class UserService {
 		return null;
 	}
 	
+	//Update AccountDetails
+		public String updateAccountDetails(UserEntity user) {
+			UserEntity userTemp = userRepo.findByUsername(user.getUsername());
+			if(userTemp!=null) {
+				userTemp.setFirstName(user.getFirstName());
+				userTemp.setLastName(user.getLastName());
+				if(user.getPassword().length()<20) {					
+					userTemp.setPassword(bcrypt.encode(user.getPassword()));
+				}
+				userTemp.setPhoneNum(user.getPhoneNum());
+				userRepo.save(userTemp);
+				return "Update Successfully";
+			}else {
+				return null;
+			}
+			
+			
+		}
 }

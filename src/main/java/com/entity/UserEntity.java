@@ -126,7 +126,7 @@ public class UserEntity implements UserDetails{
 		userroles.forEach(userrole->{
 			auth.add(new Authority(userrole.getRole().getRolename()));
 		});
-		return null;
+		return auth;
 	}
 
 //	@Override

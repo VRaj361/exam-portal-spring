@@ -1,5 +1,7 @@
 package com.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,7 +42,7 @@ public class AuthenticationController {
 	//generate Token for login
 	@PostMapping("/generate-token")
 	public ResponseEntity<?> generateToken(@RequestBody JwtRequest jwtRequest) throws Exception{
-	
+		
 		try {
 			authenticate(jwtRequest.getUsername(),jwtRequest.getPassword());
 			
@@ -54,6 +57,18 @@ public class AuthenticationController {
 		
 	}
 	
+	private void authenticate(String username, String password) throws Exception{
+		try {
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+		}catch(DisabledException e) {
+			throw new Exception("User Disable AuthenticationController "+e.getMessage());
+			
+		}catch(BadCredentialsException e) {
+			throw new Exception("Invalid Credentials AuthenticationController "+e.getMessage());
+		}
+	}
+	
+	
 	//generate Token for update and forgetpassword
 	@PostMapping("/generate-tokens")
 	public ResponseEntity<?> generateTokens(@RequestBody UserEntity user) throws Exception{
@@ -67,16 +82,10 @@ public class AuthenticationController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
 	}
 	
-	
-	private void authenticate(String username, String password) throws Exception{
-		System.out.println("Password AuthenticationController "+password +"username "+username);
-		try {
-			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-		}catch(DisabledException e) {
-			throw new Exception("User Disable AuthenticationController "+e.getMessage());
-			
-		}catch(BadCredentialsException e) {
-			throw new Exception("Invalid Credentials AuthenticationController "+e.getMessage());
-		}
+	//return user using authtoken
+	@GetMapping("/getcurrent-user")
+	public UserEntity getCurrentUser(Principal principal){
+		return ((UserEntity) this.userService.loadUserByUsername(principal.getName()));
 	}
+	
 }
