@@ -1,5 +1,8 @@
 package com.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.entity.CategoryEntity;
 import com.entity.CustomResponse;
+import com.entity.QuizEntity;
 import com.service.CategoryService;
 
 @RestController
@@ -48,7 +52,13 @@ public class CategoryController {
 	@GetMapping("/")
 	public CustomResponse<?> getCategories(){
 		LinkedHashSet<CategoryEntity> cate = this.cateService.getCategories();
-		return new CustomResponse<LinkedHashSet<CategoryEntity>>(200,"Categories found",cate);
+		ArrayList<CategoryEntity> arr = new ArrayList<>(cate);
+		Collections.sort(arr, new Comparator<CategoryEntity>() {
+			public int compare(CategoryEntity o1, CategoryEntity o2) {
+				return o1.getTitle().charAt(0) - o2.getTitle().charAt(0);
+			}
+		});
+		return new CustomResponse<ArrayList<CategoryEntity>>(200,"Categories found",arr);
 	}
 	
 	@PutMapping("/")

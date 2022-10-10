@@ -77,7 +77,7 @@ public class QuestionController {
 	}
 
 	@GetMapping("/quiz")
-	public CustomResponse<?> getQuestionOfQuiz(@RequestHeader("quizid") String id){
+	public CustomResponse<?> getQuestionsOfQuiz(@RequestHeader("quizid") String id){
 //		QuizEntity quiz=new QuizEntity();
 //		quiz.setQuizid(id);
 //		Set<QuestionEntity> questions = this.quesSer.getQuestionsOfQuiz(quiz);

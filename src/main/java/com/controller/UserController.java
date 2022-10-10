@@ -120,7 +120,7 @@ public class UserController {
 		if(ansuser == null) {
 			return new CustomResponse<>(404,"Invalid Credentials",null);
 		}else {
-			return new CustomResponse<>(200,"Login Successfully",ansuser);
+			return new CustomResponse<>(200,"Account Details Update Successfully",ansuser);
 		}
 	}
 	

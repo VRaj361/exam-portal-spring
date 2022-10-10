@@ -2,6 +2,7 @@ package com.service;
 
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +33,12 @@ public class QuizService {
 		quizRes.setDescription(quiz.getDescription());
 		quizRes.setMaxMarks(quiz.getMaxMarks());
 		quizRes.setNumberOfQuestions(quiz.getNumberOfQuestions());
+		quizRes.setCategory(quiz.getCategory());
 		return this.quizRepo.save(quizRes);
 	}
 	
-	public Set<QuizEntity> getQuizzes(){
-		return new HashSet<>(this.quizRepo.findAll());
+	public LinkedHashSet<QuizEntity> getQuizzes(){
+		return new LinkedHashSet<>(this.quizRepo.findAll());
 	}
 	
 	public QuizEntity getQuiz(String id) {
@@ -47,6 +49,7 @@ public class QuizService {
 		QuizEntity quiz = new QuizEntity();
 		quiz.setQuizid(id);
 		this.quizRepo.delete(quiz);
+//		this.quizRepo.deleteById(id);
 		
 	}
 }
