@@ -26,15 +26,16 @@ public class QuestionService {
 	}
 	
 	public QuestionEntity updateQuestion(QuestionEntity question) {
-		QuestionEntity ques = this.quesRepo.findByContent(question.getContent());
+		QuestionEntity ques = this.quesRepo.findById(question.getQuestionid()).get();
 		if(ques == null) {
 			return null;
 		}else {
+			ques.setContent(question.getContent());
 			ques.setAnswer(question.getAnswer());
-			ques.setOption1(ques.getOption1());
-			ques.setOption2(ques.getOption2());
-			ques.setOption3(ques.getOption3());
-			ques.setOption4(ques.getOption4());
+			ques.setOption1(question.getOption1());
+			ques.setOption2(question.getOption2());
+			ques.setOption3(question.getOption3());
+			ques.setOption4(question.getOption4());
 			
 			return this.quesRepo.save(ques);
 		}
@@ -53,9 +54,9 @@ public class QuestionService {
 	}
 	
 	public void deleteQuestion(String id) {
-		QuestionEntity ques = new QuestionEntity();
-		ques.setQuestionid(id);
-		this.quesRepo.delete(ques);
+//		QuestionEntity ques = new QuestionEntity();
+//		ques.setQuestionid(id);
 //		this.quesRepo.delete(ques);
+		this.quesRepo.deleteById(id);
 	}
 }

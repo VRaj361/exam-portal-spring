@@ -28,7 +28,8 @@ public class QuizService {
 	}
 	
 	public QuizEntity updateQuiz(QuizEntity quiz) {
-		QuizEntity quizRes = quizRepo.findByTitle(quiz.getTitle());
+		QuizEntity quizRes = quizRepo.findById(quiz.getQuizid()).get();
+		quizRes.setTitle(quiz.getTitle());
 		quizRes.setActive(quiz.isActive());
 		quizRes.setDescription(quiz.getDescription());
 		quizRes.setMaxMarks(quiz.getMaxMarks());
@@ -46,10 +47,10 @@ public class QuizService {
 	}
 	
 	public void deleteQuiz(String id) {
-		QuizEntity quiz = new QuizEntity();
-		quiz.setQuizid(id);
-		this.quizRepo.delete(quiz);
-//		this.quizRepo.deleteById(id);
+//		QuizEntity quiz = new QuizEntity();
+//		quiz.setQuizid(id);
+//		this.quizRepo.delete(quiz);
+		this.quizRepo.deleteById(id);
 		
 	}
 }

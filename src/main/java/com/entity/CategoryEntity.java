@@ -28,7 +28,7 @@ public class CategoryEntity {
 	@Column(length = 1500)
 	private String description;
 	
-	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "category",  fetch = FetchType.EAGER)
 	@JsonIgnore
 	private Set<QuizEntity> manyQuizzes = new LinkedHashSet<>();//for ordering 
 	

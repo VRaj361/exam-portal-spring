@@ -40,11 +40,11 @@ public class CategoryService {
 	}
 
 	public void deleteCategory(String id) {
-		CategoryEntity category = new CategoryEntity();
-		category.setCategoryid(id);
+//		CategoryEntity category = new CategoryEntity();
+//		category.setCategoryid(id);
 		
-		this.categoryRepo.delete(category);
 //		this.categoryRepo.delete(category);
+		this.categoryRepo.deleteById(id);
 
 	}
 

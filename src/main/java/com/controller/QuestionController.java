@@ -81,7 +81,18 @@ public class QuestionController {
 //		QuizEntity quiz=new QuizEntity();
 //		quiz.setQuizid(id);
 //		Set<QuestionEntity> questions = this.quesSer.getQuestionsOfQuiz(quiz);
-//		return new CustomResponse<Set<QuestionEntity>>(200, "", questions);
+//		return new CustomRespg s onse<Set<QuestionEntity>>(200, "", questions);
+		
+		QuizEntity quiz = this.quizSer.getQuiz(id);
+		Set<QuestionEntity> questions = quiz.getManyQuestions();
+		List l = new ArrayList<>(questions);
+//		Collections.shuffle(l);
+		return new CustomResponse<List>(200, "List of Questions", l);
+	}
+	
+	@GetMapping("/quizselect")//for users
+	public CustomResponse<?> getSomeQuestionsOfQuiz(@RequestHeader("quizid") String id){
+
 		
 		QuizEntity quiz = this.quizSer.getQuiz(id);
 		Set<QuestionEntity> questions = quiz.getManyQuestions();
