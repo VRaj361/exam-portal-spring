@@ -60,6 +60,11 @@ public class CategoryEntity {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
+	public void setManyQuizzes(Set<QuizEntity> manyQuizzes) {
+		this.manyQuizzes = manyQuizzes;
+	}
+	public Set<QuizEntity> getManyQuizzes(){
+		return this.manyQuizzes;
+	}
 	
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.entity.CategoryEntity;
 import com.entity.CustomResponse;
+import com.entity.QuestionEntity;
 import com.entity.QuizEntity;
+import com.repository.CategoryRepository;
+import com.service.CategoryService;
 import com.service.QuizService;
 
 @RestController
@@ -30,6 +34,12 @@ public class QuizController {
 	@Autowired
 	private QuizService quizSer;
 
+	@Autowired
+	private CategoryService cateSer;
+	
+	@Autowired 
+	private CategoryRepository cateRepo;
+	
 	// add quiz
 	@PostMapping("/")
 	public CustomResponse<?> addQuiz(@RequestBody QuizEntity quiz) {
@@ -77,4 +87,17 @@ public class QuizController {
 	public void deleteQuiz(@RequestHeader("quizid") String id) {
 		this.quizSer.deleteQuiz(id);
 	}
+	
+	@GetMapping("/category")
+	public CustomResponse<?> getQuizzesOfCategory(@RequestHeader("categorytitle") String title){
+		title = title.replace("%20", " ");
+		System.out.println(title);
+		CategoryEntity cate = this.cateRepo.findByTitle(title);
+		Set<QuizEntity> questions = cate.getManyQuizzes();
+		return new CustomResponse<Set<QuizEntity>>(200, "List of Quizzes", questions);
+	}
+	
+	
+	
+	
 }
