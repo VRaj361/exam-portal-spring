@@ -2,7 +2,9 @@ package com.controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,9 +87,9 @@ public class QuestionController {
 		
 		QuizEntity quiz = this.quizSer.getQuiz(id);
 		Set<QuestionEntity> questions = quiz.getManyQuestions();
-		List l = new ArrayList<>(questions);
+		List<QuestionEntity> l = new ArrayList<>(questions);
 //		Collections.shuffle(l);
-		return new CustomResponse<List>(200, "List of Questions", l);
+		return new CustomResponse<List<QuestionEntity>>(200, "List of Questions", l);
 	}
 	
 	@GetMapping("/quizselect")//for users
@@ -96,13 +98,45 @@ public class QuestionController {
 		
 		QuizEntity quiz = this.quizSer.getQuiz(id);
 		Set<QuestionEntity> questions = quiz.getManyQuestions();
-		List l = new ArrayList<>(questions);
+		List<QuestionEntity> l = new ArrayList<>(questions);
 		if(l.size() > quiz.getNumberOfQuestions()) {
 			Collections.shuffle(l);
 			l = l.subList(0, quiz.getNumberOfQuestions()+1);
 		}
+		for(QuestionEntity q:l) {
+			q.setAnswer("");
+		}
 		Collections.shuffle(l);
-		return new CustomResponse<List>(200, "List of Questions", l);
+		return new CustomResponse<List<QuestionEntity>>(200, "List of Questions", l);
 	}
 	
+	
+	@PostMapping("/evaluate")
+	public CustomResponse<?> evuluateResult(@RequestBody List<QuestionEntity> questions){
+		int attemptQuestions = 0;
+		int correctAnswers = 0;
+		int totalMarks = 0;
+		float percentage = 0;
+		for(QuestionEntity q:questions) {
+			QuestionEntity ques = this.quesSer.getQuestion(q.getQuestionid());
+			if(ques.getAnswer().equals(q.getGiveAnswer())) {
+				correctAnswers++;
+		        attemptQuestions++;
+			}
+		    else if (ques.getAnswer().equals(q.getGiveAnswer()) && ques.getAnswer() != "") {
+		        attemptQuestions++;
+		      }
+			
+		}
+		totalMarks = correctAnswers * questions.get(0).getQuiz().getMaxMarks() / questions.get(0).getQuiz().getNumberOfQuestions();
+		percentage = totalMarks * 100 / questions.get(0).getQuiz().getMaxMarks();
+		Map<String,Object> ans = new HashMap<>();
+		ans.put("attemptQuestions", attemptQuestions);
+		ans.put("correctAnswers", correctAnswers);
+		ans.put("totalMarks", totalMarks);
+		ans.put("percentage",percentage);
+		
+		return new CustomResponse<Map<String,Object>>(200, "Result Generated", ans);
+		
+	}
 }

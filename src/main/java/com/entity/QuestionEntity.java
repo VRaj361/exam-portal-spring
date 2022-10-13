@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -30,6 +31,9 @@ public class QuestionEntity {
 	private String option4;
 	private String answer;
 	
+	@Transient
+	private String giveAnswer;
+	
 	
 	@ManyToOne(fetch =  FetchType.EAGER)
 	private QuizEntity quiz;
@@ -52,6 +56,17 @@ public class QuestionEntity {
 		this.option4 = option4;
 		this.answer = answer;
 		this.quiz = quiz;
+	}
+
+
+
+	
+	public String getGiveAnswer() {
+		return giveAnswer;
+	}
+
+	public void setGiveAnswer(String giveAnswer) {
+		this.giveAnswer = giveAnswer;
 	}
 
 
