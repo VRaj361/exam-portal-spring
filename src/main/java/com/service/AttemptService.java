@@ -1,6 +1,8 @@
 package com.service;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,21 @@ public class AttemptService {
 			}
 		}
 		return false;
+	}
+
+	public List<AttemptedQuizEntity> currentUserAttempt(String userid) {
+		List<AttemptedQuizEntity> list=new ArrayList<>();
+		for(AttemptedQuizEntity atte : this.attemptRepo.findAll()) {
+			if(atte.getUser().getUserid().equals(userid)) {
+				list.add(atte);
+			}
+		}
+		return list;
+	}
+
+	public AttemptedQuizEntity currentQuizDetail(String id) {
+		
+		return this.attemptRepo.findById(id).get();
 	}
 	
 }

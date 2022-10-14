@@ -106,9 +106,9 @@ public class QuestionController {
 			Collections.shuffle(l);
 			l = l.subList(0, quiz.getNumberOfQuestions());
 		}
-		for(QuestionEntity q:l) {
-			q.setAnswer("");
-		}
+//		for(QuestionEntity q:l) {
+//			q.setAnswer("");
+//		}
 		Collections.shuffle(l);
 		return new CustomResponse<List<QuestionEntity>>(200, "List of Questions", l);
 	}
