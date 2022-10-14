@@ -38,6 +38,13 @@ public class QuizEntity {
 	@JsonIgnore
 	private Set<QuestionEntity> manyQuestions = new HashSet<>();
 	
+	
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "quiz")
+	@JsonIgnore
+	private Set<AttemptedQuizEntity> attemptions = new HashSet<AttemptedQuizEntity>();
+	
+	
+	
 	public QuizEntity() {
 		super();
 		// TODO Auto-generated constructor stub

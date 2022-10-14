@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.entity.AttemptedQuizEntity;
 import com.entity.CustomResponse;
 import com.entity.QuestionEntity;
 import com.entity.QuizEntity;
@@ -35,6 +36,8 @@ public class QuestionController {
 	
 	@Autowired
 	private QuizService quizSer;
+	
+
 	
 	//add quiz
 	@PostMapping("/")
@@ -101,7 +104,7 @@ public class QuestionController {
 		List<QuestionEntity> l = new ArrayList<>(questions);
 		if(l.size() > quiz.getNumberOfQuestions()) {
 			Collections.shuffle(l);
-			l = l.subList(0, quiz.getNumberOfQuestions()+1);
+			l = l.subList(0, quiz.getNumberOfQuestions());
 		}
 		for(QuestionEntity q:l) {
 			q.setAnswer("");
@@ -119,13 +122,14 @@ public class QuestionController {
 		float percentage = 0;
 		for(QuestionEntity q:questions) {
 			QuestionEntity ques = this.quesSer.getQuestion(q.getQuestionid());
+			System.out.println(ques.getAnswer()+" : "+q.getGiveAnswer());
 			if(ques.getAnswer().equals(q.getGiveAnswer())) {
 				correctAnswers++;
 		        attemptQuestions++;
 			}
-		    else if (ques.getAnswer().equals(q.getGiveAnswer()) && ques.getAnswer() != "") {
+		    else if (!ques.getAnswer().equals(q.getGiveAnswer()) && !ques.getAnswer().equals("")) {
 		        attemptQuestions++;
-		      }
+		    }
 			
 		}
 		totalMarks = correctAnswers * questions.get(0).getQuiz().getMaxMarks() / questions.get(0).getQuiz().getNumberOfQuestions();
@@ -135,7 +139,7 @@ public class QuestionController {
 		ans.put("correctAnswers", correctAnswers);
 		ans.put("totalMarks", totalMarks);
 		ans.put("percentage",percentage);
-		
+
 		return new CustomResponse<Map<String,Object>>(200, "Result Generated", ans);
 		
 	}

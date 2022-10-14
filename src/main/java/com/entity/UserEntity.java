@@ -43,6 +43,10 @@ public class UserEntity implements UserDetails{
 	private Set<UserRoleEntity> userroles = new HashSet<UserRoleEntity>();
 	
 	
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "user")
+	@JsonIgnore
+	private Set<AttemptedQuizEntity> attemptions = new HashSet<AttemptedQuizEntity>();
+	
 	
 	public UserEntity(String userid, String username, String password, String firstName, String lastName, String phoneNum,
 			boolean enabled) {
