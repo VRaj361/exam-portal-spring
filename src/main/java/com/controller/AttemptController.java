@@ -1,5 +1,8 @@
 package com.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.entity.AttemptedQuizEntity;
 import com.entity.CustomResponse;
 import com.entity.QuestionEntity;
+import com.entity.QuizEntity;
 import com.service.AttemptService;
 
 @RestController
@@ -70,6 +74,23 @@ public class AttemptController {
 			return new CustomResponse<AttemptedQuizEntity>(404, "You don't attempt any Quiz.", null);
 		}else{
 			return new CustomResponse<AttemptedQuizEntity>(200, "Current User Quiz Found", att);
+		}
+	}
+	
+	@GetMapping("/getAllUserDetails")
+	public CustomResponse<?> getAllUserDetails(@RequestHeader("quizid") String id){
+		List<AttemptedQuizEntity> att=this.attSer.getAllUserDetails(id);
+		if(att.size() == 0) {
+			return new CustomResponse<List<AttemptedQuizEntity>>(404, "You don't attempt any Quiz.", null);
+		}else{
+			ArrayList<AttemptedQuizEntity> arr = new ArrayList<>(att);
+			Collections.sort(arr, new Comparator<AttemptedQuizEntity>() {
+				public int compare(AttemptedQuizEntity a1, AttemptedQuizEntity a2) {
+					return a2.getTotalMarks() - a1.getTotalMarks();
+				}
+			});
+			
+			return new CustomResponse<List<AttemptedQuizEntity>>(200, "Users Quiz Found", arr);
 		}
 	}
 }

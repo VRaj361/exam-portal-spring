@@ -62,5 +62,15 @@ public class AttemptService {
 		
 		return this.attemptRepo.findById(id).get();
 	}
+
+	public List<AttemptedQuizEntity> getAllUserDetails(String id) {
+		List<AttemptedQuizEntity> list=new ArrayList<>();
+		for(AttemptedQuizEntity atte : this.attemptRepo.findAll()) {
+			if(atte.getQuiz().getQuizid().equals(id)) {
+				list.add(atte);
+			}
+		}
+		return list;
+	}
 	
 }
