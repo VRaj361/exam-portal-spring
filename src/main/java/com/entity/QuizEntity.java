@@ -29,6 +29,7 @@ public class QuizEntity {
 	private String description;
 	private int maxMarks;
 	private int numberOfQuestions;
+	private int timeOfQuiz;
 	private boolean isActive = false;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -51,7 +52,7 @@ public class QuizEntity {
 	}
 
 	public QuizEntity(String quizid, String title, String description, int maxMarks, int numberOfQuestions,
-			boolean isActive,CategoryEntity category) {
+			boolean isActive,CategoryEntity category,int timeOfQuiz) {
 		super();
 		this.quizid = quizid;
 		this.title = title;
@@ -60,9 +61,18 @@ public class QuizEntity {
 		this.numberOfQuestions = numberOfQuestions;
 		this.isActive = isActive;
 		this.category = category;
+		this.timeOfQuiz = timeOfQuiz;
 	}
 
+	
+	
+	public int getTimeOfQuiz() {
+		return timeOfQuiz;
+	}
 
+	public void setTimeOfQuiz(int timeOfQuiz) {
+		this.timeOfQuiz = timeOfQuiz;
+	}
 
 	public String getQuizid() {
 		return quizid;

@@ -35,6 +35,7 @@ public class QuizService {
 		quizRes.setMaxMarks(quiz.getMaxMarks());
 		quizRes.setNumberOfQuestions(quiz.getNumberOfQuestions());
 		quizRes.setCategory(quiz.getCategory());
+		quizRes.setTimeOfQuiz(quiz.getTimeOfQuiz());
 		return this.quizRepo.save(quizRes);
 	}
 	
