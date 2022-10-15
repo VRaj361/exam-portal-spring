@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,12 +18,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.reactive.function.server.RouterFunction;
+import org.springframework.web.reactive.function.server.RouterFunctions;
 
 import com.entity.CategoryEntity;
 import com.entity.CustomResponse;
 import com.entity.QuestionEntity;
 import com.entity.QuizEntity;
 import com.repository.CategoryRepository;
+import com.resourse.TwilioOTPHandler;
 import com.service.CategoryService;
 import com.service.QuizService;
 
@@ -98,6 +102,13 @@ public class QuizController {
 	}
 	
 	
+//	@Autowired 
+//	private TwilioOTPHandler handler;
+//	@PostMapping("/router/sendOTP")
+//	
+//	public RouterFunction<ServerResponse> handleSms(){
+//		return RouterFunctions.route().POST("/router/sendOTP",handler::sendOTP).POST("/router/validateOTP", handler::validateOTP).build();ss
+//	}
 	
 	
 }

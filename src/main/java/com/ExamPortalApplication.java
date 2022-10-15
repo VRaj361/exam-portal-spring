@@ -3,6 +3,8 @@ package com;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -12,6 +14,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.service.UserService;
+import com.twilio.Twilio;
+import com.config.TwilioConfig;
 import com.entity.RoleEntity;
 import com.entity.UserEntity;
 import com.entity.UserRoleEntity;
@@ -28,7 +32,13 @@ public class ExamPortalApplication implements CommandLineRunner{
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private TwilioConfig twilioConfig;
 
+	@PostConstruct
+	public void initTwilio(){
+		Twilio.init(twilioConfig.getAccountSid(),twilioConfig.getAuthToken());
+	}
 	
 	
 	public static void main(String[] args) {

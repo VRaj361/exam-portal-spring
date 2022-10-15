@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +22,7 @@ import com.entity.CustomResponse;
 import com.entity.RoleEntity;
 import com.entity.UserEntity;
 import com.entity.UserRoleEntity;
+import com.resourse.TwilioOTPHandler;
 import com.service.UserService;
 
 
@@ -32,6 +34,8 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	@Autowired
+    private TwilioOTPHandler handler;
 	
 	//creating user
 	@PostMapping("/signup")
@@ -109,7 +113,7 @@ public class UserController {
 		if(ansuser == null) {
 			return new CustomResponse<>(404,"Invalid Credentials",null);
 		}else {
-			return new CustomResponse<>(200,"Login Successfully",ansuser);
+			return new CustomResponse<>(200,"OTP Send Entered Mobile Number",ansuser);
 		}
 	}
 	
@@ -124,4 +128,9 @@ public class UserController {
 		}
 	}
 	
+	@GetMapping("/validateOtp")
+    public CustomResponse<?> validateOTP(@RequestHeader("number") String number,@RequestHeader("oneTimeOtp") String otp){
+    	
+    	return this.handler.validateOTP(number,otp);
+    }
 }
