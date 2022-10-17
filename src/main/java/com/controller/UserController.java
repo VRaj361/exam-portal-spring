@@ -65,6 +65,34 @@ public class UserController {
 		
 	}
 	
+	
+	@PostMapping("/signup/admin")
+	public CustomResponse<UserEntity> createUserAdmin(@RequestBody UserEntity user) throws Exception{
+		
+		Set<UserRoleEntity> users = new HashSet<>();
+		
+		RoleEntity role = new RoleEntity();
+		role.setRolename("Admin");
+		role.setRoleid(1);
+		
+		UserRoleEntity userRole = new UserRoleEntity();
+		userRole.setUser(user);
+		userRole.setRole(role);
+		users.add(userRole);
+		
+		UserEntity ansuser= userService.createUser(user, users);
+
+		if(ansuser == null) {
+//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ansuser);
+			return new CustomResponse<>(400,"Duplicate User Found",ansuser);
+			
+		}else {
+//			return ResponseEntity.status(HttpStatus.OK).body(ansuser);
+			return new CustomResponse<>(200,"User Registerd Successfully",ansuser);
+		}
+		
+	}
+	
 	//delete user using id
 	@DeleteMapping("/delete")
 	public CustomResponse<UserEntity> deleteUser(@RequestHeader("userid") String userid){
