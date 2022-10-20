@@ -8,11 +8,13 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.entity.AttemptedQuizEntity;
@@ -58,6 +60,7 @@ public class AttemptController {
 	
 	@GetMapping("/currentUserAttempts")
 	public CustomResponse<?> currentUserAttempt(@RequestHeader("userid") String id){
+		System.out.println(id);
 		List<AttemptedQuizEntity> list = this.attSer.currentUserAttempt(id);
 		if(list == null || list.size()==0) {
 			return new CustomResponse<List<AttemptedQuizEntity>>(404, "You don't attempt any Quiz.", null);
@@ -93,4 +96,11 @@ public class AttemptController {
 			return new CustomResponse<List<AttemptedQuizEntity>>(200, "Users Quiz Found", arr);
 		}
 	}
+	
+	@DeleteMapping("/deleteAttempt")
+	public CustomResponse<?> deleteAttempt(@RequestParam("attemptid") String id){
+		this.attSer.deleteAttempt(id);
+		return new CustomResponse<String>(200,"Delete Attempt Successfully",null);
+	}
+	
 }

@@ -88,7 +88,7 @@ public class UserController {
 			
 		}else {
 //			return ResponseEntity.status(HttpStatus.OK).body(ansuser);
-			return new CustomResponse<>(200,"User Registerd Successfully",ansuser);
+			return new CustomResponse<>(200,"Admin Registerd Successfully",ansuser);
 		}
 		
 	}

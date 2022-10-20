@@ -73,4 +73,9 @@ public class AttemptService {
 		return list;
 	}
 	
+	public void deleteAttempt(String id) {
+		this.attemptRepo.deleteAttempt(id);
+		
+	}
+	
 }
