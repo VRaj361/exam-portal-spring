@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.entity.AuthorityEntity;
@@ -22,7 +23,11 @@ import com.entity.CustomResponse;
 import com.entity.RoleEntity;
 import com.entity.UserEntity;
 import com.entity.UserRoleEntity;
+import com.razorpay.Order;
+import com.razorpay.RazorpayException;
+import com.repository.UserRepository;
 import com.resourse.TwilioOTPHandler;
+import com.service.PaymentService;
 import com.service.UserService;
 
 
@@ -36,6 +41,11 @@ public class UserController {
 	private UserService userService;
 	@Autowired
     private TwilioOTPHandler handler;
+	@Autowired
+	private PaymentService payService;
+	@Autowired
+	private UserRepository userRepo;
+	
 	
 	//creating user
 	@PostMapping("/signup")
@@ -88,7 +98,7 @@ public class UserController {
 			
 		}else {
 //			return ResponseEntity.status(HttpStatus.OK).body(ansuser);
-			return new CustomResponse<>(200,"Admin Registerd Successfully",ansuser);
+			return new CustomResponse<>(200,"Admin Registerdng s --o Successfully",ansuser);
 		}
 		
 	}
@@ -161,4 +171,25 @@ public class UserController {
     	
     	return this.handler.validateOTP(number,otp);
     }
+	
+	
+	
+	@GetMapping("/createOrderPayment")
+	public CustomResponse<?> transferMoney(){
+		try {
+			String order = payService.razorPayGateWay(99);
+			return new CustomResponse<String>(200, "Send the Order number successfully", order);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			return new CustomResponse<String>(400, "Transaction failed", null);
+		} catch (RazorpayException e) {
+			e.printStackTrace();
+			return new CustomResponse<String>(400, "Transaction failed", null);
+		}
+	}
+	
+	@GetMapping("/roleChange")
+	public void roleChange(@RequestParam("userid") String userid) {
+		this.userRepo.updateRole(userid);
+	}
 }
