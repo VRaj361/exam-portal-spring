@@ -192,4 +192,9 @@ public class UserController {
 	public void roleChange(@RequestParam("userid") String userid) {
 		this.userRepo.updateRole(userid);
 	}
+	
+	@GetMapping("/roleChangeUser")
+	public void roleChangeUser(@RequestParam("userid") String userid) {
+		this.userRepo.updateRoleAdmin(userid);
+	}
 }
