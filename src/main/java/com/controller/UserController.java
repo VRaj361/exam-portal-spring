@@ -197,4 +197,12 @@ public class UserController {
 	public void roleChangeUser(@RequestParam("userid") String userid) {
 		this.userRepo.updateRoleAdmin(userid);
 	}
+	
+	@DeleteMapping("/deleteUser")
+	public void deleteUserPar(@RequestParam("userid") String userid) {
+		System.out.println("userid ------->"+userid);
+		this.userRepo.deleteAttempt(userid);
+		this.userRepo.deleteUserRole(userid);
+		this.userRepo.deleteUser(userid);
+	}
 }

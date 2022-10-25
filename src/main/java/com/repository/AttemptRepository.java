@@ -20,4 +20,6 @@ public interface AttemptRepository extends JpaRepository<AttemptedQuizEntity, St
 	@Transactional
 	@Query(value = "delete from attemptions where attemptid = :id",nativeQuery = true)
 	public void deleteAttempt(@Param("id")String id);
+	
+	
 }

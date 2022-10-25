@@ -25,4 +25,22 @@ public interface UserRepository extends JpaRepository<UserEntity, String>{
 
 	@Query(value = "update userrole set role_roleid=2 where user_userid =:id",nativeQuery = true)
 	public void updateRoleAdmin(@Param("id")String id);
+	
+	@Modifying
+	@Transactional
+	@Query(value = "delete from attemptions where user_userid = :id",nativeQuery = true)
+	public void deleteAttempt(@Param("id")String id);
+	
+	@Modifying
+	@Transactional
+	@Query(value = "delete from userrole where user_userid = :id",nativeQuery = true)
+	public void deleteUserRole(@Param("id")String id);
+	
+	@Modifying
+	@Transactional
+	@Query(value = "delete from users where userid = :id",nativeQuery = true)
+	public void deleteUser(@Param("id")String id);
+	
+	
+	
 }

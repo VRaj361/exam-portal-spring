@@ -32,6 +32,7 @@ public class UserService {
 	public UserEntity createUser(UserEntity user, Set<UserRoleEntity> users) throws Exception {
 
 		UserEntity userTemp = userRepo.findByUsername(user.getUsername());
+		System.out.println("userTemp--------->"+userTemp);
 		if (userTemp != null) {
 			return null;
 		} else {
