@@ -41,6 +41,10 @@ public interface UserRepository extends JpaRepository<UserEntity, String>{
 	@Query(value = "delete from users where userid = :id",nativeQuery = true)
 	public void deleteUser(@Param("id")String id);
 	
-	
+	@Modifying
+	@Transactional
+	@Query(value = "update users set enabled=false where userid =:id",nativeQuery = true)
+	public void banUser(@Param("id")String id);
+
 	
 }

@@ -205,4 +205,9 @@ public class UserController {
 		this.userRepo.deleteUserRole(userid);
 		this.userRepo.deleteUser(userid);
 	}
+	
+	@GetMapping("/banUser")
+	public void banUser(@RequestParam("userid") String userid) {
+		this.userRepo.banUser(userid);
+	}
 }
