@@ -82,8 +82,8 @@ public class UserController {
 		Set<UserRoleEntity> users = new HashSet<>();
 		
 		RoleEntity role = new RoleEntity();
-		role.setRolename("Admin");
-		role.setRoleid(1);
+		role.setRolename("Normal");
+		role.setRoleid(2);
 		
 		UserRoleEntity userRole = new UserRoleEntity();
 		userRole.setUser(user);
